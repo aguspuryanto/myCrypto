@@ -7,40 +7,60 @@ include('API.php'); //https://github.com/moralesgersonpa/exchanges-php/blob/mast
  * @var CallCoins list all cryptocurrencies, X-CMC_PRO_API_KEY is required by CoinMarketCap
  * @var the Api key provided by CoinMarketCap
  */
+ 
+include_once ('simple_html_dom.php');
 
-$cache_file = 'data_'.date('Ymd').'.json';
+$date = new DateTime(); // For today/now, don't pass an arg.
+// echo $date->format("Y-m-d H:i:s");
 
-$start = isset($_GET['start']) ? $_GET['start'] : 1;
-$limit = isset($_GET['limit']) ? $_GET['limit'] : 100;
-$convert = isset($_GET['convert']) ? $_GET['convert'] : "USD";
+$start = isset($_GET['start']) ? $_GET['start'] : $date->modify("-1 day");
+$end = isset($_GET['end']) ? $_GET['end'] : $date->modify("-1 years");
+$convert = isset($_GET['convert']) ? $_GET['convert'] : "bitcoin";
+
+$cache_file = $convert.'_historical_'.date('Ymd').'.html';
 
 $filemtime 	= @filemtime($cache_file);
 // $bytes = filesize($cache_file);
 if(!file_exists($cache_file) || (time() - $filemtime > 3600) || filesize($cache_file) < 390){
 
-	$ApiKey='90058ea6-90d3-400c-a31e-821ea817f70e';
-	// Pro
-	$CoinsUrl='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
-	$CoinsUrl .='?start='.$start.'&limit='.$limit.'&convert='.$convert;
-
-	$APIREST = new APIREST($CoinsUrl);
+	$CoinsUrl='https://coinmarketcap.com/currencies/'.$convert.'/historical-data/?start=20171016&end=20181016';
+	// echo $CoinsUrl;  die();
+	
+	/* $APIREST = new APIREST($CoinsUrl);
 	$CallCoins= $APIREST->call(
 		array('X-CMC_PRO_API_KEY:'.$ApiKey)
-	);
+	); */
 	
-	//Basic
-	// $CoinsUrl='https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=100&start=1';	
-	// $CallCoins= $APIREST->call(
-		// array('Content-Type: application/json')
-	// );
+	$CallCoins = @file_get_contents($CoinsUrl, true, stream_context_create(
+		array('http' => array(
+			'ignore_errors' => true
+		))
+	));
 	
 	// echo $CallCoins;
+	$CallCoins 	= preg_replace('#<script(.*?)>(.*?)</script>#is', '', $CallCoins);
 	file_put_contents($cache_file, $CallCoins);
 }
 
-$api_response = file_get_contents($cache_file);
-$json_response = json_decode($api_response, true);
-echo json_encode($json_response);
+$html = str_get_html( file_get_contents($cache_file) );
+
+foreach($html->find('table>tbody>tr') as $e) {
+	$historical['date'] = $e->find('td',0)->plaintext;
+	$historical['open'] = $e->find('td',1)->plaintext;
+	$historical['high'] = $e->find('td',2)->plaintext;
+	$historical['low'] = $e->find('td',3)->plaintext;
+	$historical['close'] = $e->find('td',4)->plaintext;
+	$historical['volume'] = $e->find('td',5)->plaintext;
+	$historical['marketcap'] = $e->find('td',6)->plaintext;
+	
+	if(!empty($historical['date'])) $data[] = $historical;
+}
+
+$html->clear();
+unset($html);
+
+$data = array_filter($data);
+echo json_encode($data);
 
 // Get metadata
 // https://pro-api.coinmarketcap.com/v1/cryptocurrency/info

@@ -54,8 +54,7 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Hello, world!</h1>
-          <p>Top 100 Cryptocurrencies by Market Capitalization</p>
+          <p>Historical data for XRP</p>
         </div>
       </div>
 
@@ -66,13 +65,13 @@
           <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Open*</th>
+                <th scope="col">High</th>
+                <th scope="col">Low</th>
+                <th scope="col">Close**</th>
+                <th scope="col">Volume</th>
                 <th scope="col">Market Cap</th>
-                <th scope="col">Price</th>
-                <th scope="col">Volume (24)</th>
-                <th scope="col">Circulating Supply</th>
-                <th scope="col">Change (24)</th>
               </tr>
             </thead>
             <tbody> </tbody>
@@ -98,7 +97,32 @@
 
     <!-- <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> -->
-    <script src="main.js"></script>
+    <script>
+		$(document).ready(function() {
+			$.ajax({
+				url: "src/data2_historical.php",
+				method: "GET",
+				data: { convert: '<?=$_GET['slug'];?>' },
+				success: function(data) {
+					var data = JSON.parse(data);
+					var newRows;
+					for (var i in data) {
+					  newRows += "<tr><td>" + data[i].date + "</td>"
+					  newRows += "<td>$" + parseFloat(data[i].open).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + "</td>"
+					  newRows += "<td>$" + parseFloat(data[i].high).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + "</td>"
+					  newRows += "<td>$" + parseFloat(data[i].low).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + "</td>"
+					  newRows += "<td>$" + parseFloat(data[i].close).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + "</td>"
+					  newRows += "<td>" + (data[i].volume) + "</td>"
+					  newRows += "<td>" + (data[i].marketcap) + "</td></tr>"
+					}
+					$("table>tbody").html(newRows); 
+					
+				}, error: function(xhr) {
+					console.log('error', xhr);
+				}
+			});
+		});
+	</script>
   </body>
 </html>
 
