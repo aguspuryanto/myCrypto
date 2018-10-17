@@ -1,0 +1,43 @@
+
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container">
+          <h1>Historical data for {{name}}</h1>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          
+          <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Open*</th>
+                <th scope="col">High</th>
+                <th scope="col">Low</th>
+                <th scope="col">Close**</th>
+                <th scope="col">Volume</th>
+                <th scope="col">Market Cap</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="order in listOrder">
+                <td>{{order.date}}</td>
+                <td>{{order.open | currency}}</td>
+                <td>{{order.high | currency}}</td>
+                <td>{{order.low | currency}}</td>
+                <td>{{order.close | currency}}</td>
+                <td>{{order.volume}}</td>
+                <td>{{order.marketcap}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->

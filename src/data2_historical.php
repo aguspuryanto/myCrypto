@@ -1,13 +1,7 @@
-<?php
-include('API.php'); //https://github.com/moralesgersonpa/exchanges-php/blob/master/class/API.php
-/**
- * Get list all cryptocurrencies
- * @var CoinsUrl is the url of the request
- * @var APIREST initializes the APIREST class
- * @var CallCoins list all cryptocurrencies, X-CMC_PRO_API_KEY is required by CoinMarketCap
- * @var the Api key provided by CoinMarketCap
- */
- 
+<?php 
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+
 include_once ('simple_html_dom.php');
 
 $date = new DateTime(); // For today/now, don't pass an arg.
@@ -24,19 +18,12 @@ $filemtime 	= @filemtime($cache_file);
 if(!file_exists($cache_file) || (time() - $filemtime > 3600) || filesize($cache_file) < 390){
 
 	$CoinsUrl='https://coinmarketcap.com/currencies/'.$convert.'/historical-data/?start=20171016&end=20181016';
-	// echo $CoinsUrl;  die();
-	
-	/* $APIREST = new APIREST($CoinsUrl);
-	$CallCoins= $APIREST->call(
-		array('X-CMC_PRO_API_KEY:'.$ApiKey)
-	); */
-	
+	// echo $CoinsUrl;  die();	
 	$CallCoins = @file_get_contents($CoinsUrl, true, stream_context_create(
 		array('http' => array(
 			'ignore_errors' => true
 		))
-	));
-	
+	));	
 	// echo $CallCoins;
 	$CallCoins 	= preg_replace('#<script(.*?)>(.*?)</script>#is', '', $CallCoins);
 	file_put_contents($cache_file, $CallCoins);

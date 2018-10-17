@@ -1,0 +1,44 @@
+
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Hello, world!</h1>
+          <p>Top 100 Cryptocurrencies by Market Capitalization</p>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          
+          <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Market Cap</th>
+                <th scope="col">Price</th>
+                <th scope="col">Volume (24)</th>
+                <th scope="col">Circulating Supply</th>
+                <th scope="col">Change (24)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="order in listOrder">
+                <td>{{order.symbol}}</td>
+                <td>{{order.name}}</td>
+                <td>{{order.quote.USD.market_cap | currency}}</td>
+                <td>{{order.quote.USD.price | currency}}</td>
+                <td>{{order.quote.USD.volume_24h | currency}}</td>
+                <td>{{order.circulating_supply | number : 2}}</td>
+                <td>{{order.quote.USD.percent_change_24h | number : 2}}% <span class="float-right"><a href="{{'#!historical/' + order.slug}}"><i class="fa fa-ellipsis-h"></i> </a></span></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
