@@ -11,18 +11,19 @@ app.config(function($routeProvider) {
     });
 });
 
-app.controller("mainCtrl", function ($scope, $http) {
+app.controller("mainCtrl", function ($scope, $http, $interval) {
 
     $scope.listOrder = [];
-    $http.get("src/data2.php", {
-      params: { start: 1, limit: 100, convert: 'USD' }
-    }).then(function(reply) {
-      // console.info(JSON.stringify(reply.data));
-      $scope.listOrder = reply.data.data;
+    return $interval(function() {
+      $http.get("src/data2.php", {
+        params: { start: 1, limit: 100, convert: 'USD' }
+      }).then(function(reply) {
+        $scope.listOrder = reply.data.data;
 
-    },function (error) { 
-      console.info( error );
-    });
+      },function (error) { 
+        console.info( error );
+      });
+    }, 3600*1000); //every 1 hour
 });
 
 app.controller("historicalCtrl", function ($scope, $http, $routeParams) {

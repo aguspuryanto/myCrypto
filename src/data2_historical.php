@@ -72,5 +72,14 @@ echo json_encode($data);
         // >
         //   Can't load widget
         // </iframe>
+
+/*Program Investasi: Bitconnect
+
+Dompet BTC: VIP Bitcoin
+Modal Investasi: $ 510
+Tanggal Investasi: 22 Agustus 2017
+Withdraw Profit: BTC 0.0064
+Profit Investasi: $ 293.15 (57.48%)
+Lama Investasi Berjalan Hingga Saat Ini: 64 hari*/
       
 ?>
