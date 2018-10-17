@@ -81,5 +81,32 @@ Tanggal Investasi: 22 Agustus 2017
 Withdraw Profit: BTC 0.0064
 Profit Investasi: $ 293.15 (57.48%)
 Lama Investasi Berjalan Hingga Saat Ini: 64 hari*/
-      
+
+// https://coinmarketcap.com/converter/xrp/idr/?amt=1
+
+    /*$apiKey = 'YOUR_API_KEY';
+    $apiSecret = 'YOUR_API_SECRET';
+    $apiUrl = 'https://api.changelly.com';
+    $message = json_encode(
+        array('jsonrpc' => '2.0', 'id' => 1, 'method' => 'getCurrencies', 'params' => array())
+    );
+    $sign = hash_hmac('sha512', $message, $apiSecret);
+    $requestHeaders = [
+        'api-key:' . $apiKey,
+        'sign:' . $sign,
+        'Content-type: application/json'
+    ];
+    $ch = curl_init($apiUrl);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+    var_dump($response);*/
+
+    // <iframe src="https://changelly.com/widget/v1?auth=email&from=USD&to=BTC&merchant_id=4e7irkav862o75cv&address=&amount=1&ref_id=4e7irkav862o75cv&color=00cf70" width="600" height="500" class="changelly" scrolling="no" style="overflow-y: hidden; border: none" > Can't load widget </iframe>
+
+    // https://changelly.com/exchange/BTC/XRP/1?ref_id=4e7irkav862o75cv&cmcref=listing
 ?>

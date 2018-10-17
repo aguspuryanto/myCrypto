@@ -14,7 +14,7 @@ app.config(function($routeProvider) {
 app.controller("mainCtrl", function ($scope, $http, $interval) {
 
     $scope.listOrder = [];
-    return $interval(function() {
+    // return $interval(function() {
       $http.get("src/data2.php", {
         params: { start: 1, limit: 100, convert: 'USD' }
       }).then(function(reply) {
@@ -23,7 +23,7 @@ app.controller("mainCtrl", function ($scope, $http, $interval) {
       },function (error) { 
         console.info( error );
       });
-    }, 3600*1000); //every 1 hour
+    // }, 3600*1000); //every 1 hour
 });
 
 app.controller("historicalCtrl", function ($scope, $http, $routeParams) {

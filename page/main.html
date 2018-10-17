@@ -32,7 +32,13 @@
                 <td>{{order.quote.USD.price | currency}}</td>
                 <td>{{order.quote.USD.volume_24h | currency}}</td>
                 <td>{{order.circulating_supply | number : 2}}</td>
-                <td>{{order.quote.USD.percent_change_24h | number : 2}}% <span class="float-right"><a href="{{'#!historical/' + order.slug}}"><i class="fa fa-ellipsis-h"></i> </a></span></td>
+                <td>
+                    <span>{{order.quote.USD.percent_change_24h | number : 2}}%</span>
+                    <span class="float-right">
+                      <a target="_blank" href="{{'https://changelly.com/exchange/USD/' + order.symbol +'/1?ref_id=4e7irkav862o75cv&cmcref=listing'}}" class="btn btn-primary">Buy</a>
+                      <a href="{{'#!historical/' + order.slug}}" class="btn btn-info"><i class="fa fa-ellipsis-h"></i> </a>
+                    </span>
+                </td>
               </tr>
             </tbody>
           </table>
